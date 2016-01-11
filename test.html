@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- This is a HTML comment, we can't do PHP comments (/* ... */) here -->
+        <title>Welcome | fit filtration</title>
+        <!--<link rel="stylesheet" type="text/css" href="css/main.css"> -->
+        <script>
+            function getprice()
+            {
+                $.getJSON("api/writejson.php", updateg);
+            }
+            function updateg(glass)
+            {
+                
+            }
+            function start()
+            {
+                var length = document.getElementById("tankx").value;
+                var width = document.getElementById("tanky").value;
+                var height = document.getElementById("tankz").value;
+                var base = document.getElementById("tankbase").value;
+                var side = document.getElementById("tankside").value;
+                var LowIronFront = frontBackLowIron;
+                var LowIronSide = glassCuttingSidePlatesLowIron;
+                var total = ((Length * width) / 14) + ((length * width) / 45) + ((length * width) / 44) + ((length * width) / 54) + 3.5 * 6.50;
+                var MetalFrame = (total * TradeMarkUp) + (total * fitMarkUp) + total;
+                var CladdedGloss = (length * width / glossBoards) * 21;
+                var claddedWood = (length * width / woodBoards) * 14;
+                var cabinetAllGloss = (lenght * width) / woodboards * 41;
+                var cabinetAllAcrylic = (length * width) / acrylic * 65;
+                document.getElementById("glassw").value = ((((baseLength * baseWidth) / 10000) * (base * 2.5)) / 100) + ((((front / backlength * (front + back + width)) / 10000) * (sides * 2.5)) / 100) + ((((sideplateslength * sideplateswidth) / 10000) * (sides * 2.5)) / 100);
+                document.getElementById("totalw").value = ((glassWeight) + (glassWeight * 0.1)) * 7;
+                var gallons = ((length / 12) * (height / 12) * (width / 12)) * 6.25;
+                document.getElementById("gallonsw").value = gallons;
+                var afterDisplacement = ((length / 12) + (height / 12) + (width / 12)) * 6.25 - (((length / 12) + (height / 12) + (width / 12)) * 6.25 * 0.1);
+                calculatestat(afterDisplacement);
+                document.getElementById("totalww").value = gallons * 4.55 + weightKilos;
+                var energyCharge = glassWeight * energyChargeAmount;
+                var MarkUpCombined = markUpFitOnly;
+                var GlassBracesSiliconEnergyCharge = glassSizeBaseCost + glassSizeFrontBackCost + GlassSizeSidePlatesCost + glassSizeSiliconBracingCost + glassSizeEnergyCharge;
+                var BuildTimeCharge = GlassSizeBuildTimeCharge;
+                var ShopEarns = GlassSizeShopEarns;
+                document.getElementById("totalc").value = markUpCombined + GlassBracesSiliconEnergyCharge + BuildTimeCharge + shopEarns;
+                document.getElementById("totalsc").value = (markUpCombined) + (glassBracesSiliconEnergyCharge) + (BuildTimeCharge / 2) + (shopEarns / 2);
+            }
+            function calculatestat(afterDisplacement)
+            {
+                document.getElementById("LiveRock").value = (afterDisplacement / 1.7);
+                document.getElementById("fishStocking").value = afterDisplacement / 4;
+                document.getElementById("turboSnail").value = afterDisplacement / 2;
+                document.getElementById("hermet").value = afterDisplacement / 4;
+                document.getElementById("Lighting").value = afterDisplacement * 4;
+            }
+            function acryliccab(length, width, acrylic)
+            {
+                var cabinetAllAcrylic = (length * width) / acrylic * 65;
+            }
+            function glosscab(length, width, woodboards)
+            {
+                var cabinetAllGloss = (lenght * width) / woodboards * 41;
+            }
+            function woodcab(length, width, woodboards)
+            {
+                var CabinetAllWood = (length * width) / woodboards * 27;
+            }
+            function WoodLid(length, width, woodBoard)
+            {
+                var pelmetWoodLid = (length * width) / woodBoard * 7;
+                var pelmetWoodLidSump = pelmetWoodLid * 0.5;
+            }
+            function GlossLid(length, width, glossBoards)
+            {
+                var PelmetGlossLid = (length * width) / glossBoards * 11;
+                var pelmetGlossLidSump = pelmetGlossLid * 0.5;
+            }
+            function validatethicness()
+            {
+                var x = document.getElementById("tankx").value;
+                var y = document.getElementById("tanky").value;
+                var z = document.getElementById("tankz").value;
+                var base = document.getElementById("tankbase").value;
+                var side = document.getElementById("tankside").value;
+                var area = x * y;
+                alert("unsafe thickness");
+            }
+            function validatesthicness()
+            {
+                var x = document.getElementById("tankx").value;
+                var y = document.getElementById("tanky").value;
+                var z = document.getElementById("tankz").value;
+                var base = document.getElementById("tankbase").value;
+                var side = document.getElementById("tankside").value;
+                alert("unsafe thickness");
+            }
+            function validatesumpthicness()
+            {
+                var x = document.getElementById("sumpx").value;
+                var y = document.getElementById("sumpy").value;
+                var z = document.getElementById("sumpz").value;
+                var base = document.getElementById("sumpbase").value;
+                var side = document.getElementById("sumpside").value;
+                var area = x * y;
+                alert("unsafe thickness");
+            }
+            function validatesumpsthicness()
+            {
+                var x = document.getElementById("sumpx").value;
+                var y = document.getElementById("sumpy").value;
+                var z = document.getElementById("sumpz").value;
+                var base = document.getElementById("sumpbase").value;
+                var side = document.getElementById("sumpside").value;
+                alert("unsafe thickness");
+            }
+        </script>
+    </head>
+    <body>
+        <!-- 
+            This inserts the template_header PHP page right here and 
+            runs any PHP code inside it
+        -->
+        <div id="mesure">
+                            <p>use of tank for <select id="lifesystem" onChange="">
+                        <option value="tropical">tropical</option>
+                        <option value="marine">marine</option>
+                        <option value="cold water">cold water</option>
+
+                    </select></p>
+            <div id="tankm">
+                <p>tank length<input type="number" id="tankx"></p>
+                <p> tank width<input type="number" id="tanky"></p>
+                <p>tank height<input type="number" id="tankz"></p>
+                <p>base glass thickness <select id="tankbase" onChange="validatethicness()">
+                        <option value="25">25</option>
+                        <option value="19">19</option>
+                        <option value="15">15</option>
+                        <option value="12">12</option>
+                        <option value="10">10</option>
+                        <option value="8">8</option>
+                        <option value="6">6</option>
+                        <option value="4">4</option>
+                    </select></p>
+                <p>side glass thickness<select id="tankside" onChange="validatesthicness()">
+                        <option value="25">25</option>
+                        <option value="19">19</option>
+                        <option value="15">15</option>
+                        <option value="12">12</option>
+                        <option value="10">10</option>
+                        <option value="8">8</option>
+                        <option value="6">6</option>
+                        <option value="4">4</option>
+                    </select></p>
+            </div>
+            <div id="sumpm">
+                <p>sump length<input type="number" id="sumpx"></p>
+                <p>sump width<input type="number" id="sumpy"></p>
+                <p>sump height<input type="number" id="sumpz">
+                <p>base glass thickness<select id="sumpbase" onChange="validatesumpthicness()">
+                        <option value="25">25</option>
+                        <option value="19">19</option>
+                        <option value="15">15</option>
+                        <option value="12">12</option>
+                        <option value="10">10</option>
+                        <option value="8">8</option>
+                        <option value="6">6</option>
+                        <option value="4">4</option>
+                    </select></p>
+                <p>side glass thickness<select id="sumpside" onChange="validatesumpsthicness()">
+                        <option value="25">25</option>
+                        <option value="19">19</option>
+                        <option value="15">15</option>
+                        <option value="12">12</option>
+                        <option value="10">10</option>
+                        <option value="8">8</option>
+                        <option value="6">6</option>
+                        <option value="4">4</option>
+                    </select></p>
+            </div>
+            <p><button id="calculate" value="calculate" onclick="start();">calculate</button></p>
+        </div>
+        <div id="options" >
+            <p>tank lid<select id="lidtype">
+                    <option value="wood">wood</option>
+                    <option value="glass">glass</option>
+                    <option value="none">none</option>
+                </select></p>
+            <p>sump lid<select id="slidtype">
+                    <option value="wood">wood</option>
+                    <option value="glass">glass</option>
+                    <option value="none">none</option>
+                </select></p>
+            <p>cabinet under tank<select id="cabinet">
+                    <option value="25">acrylic</option>
+                    <option value="19">gloss</option>
+                    <option value="15">wood</option>
+                </select></p>
+        </div>
+        <div id="results">
+            <p>amount of Rock<input type="number" id="LiveRock"></p>
+            <p>fish Stocking<input type="number" id="fishStocking"></p>
+            <p>turbo Snails to keep tank clean<input type="number" id="turboSnail"></p>
+            <p>hermets in tank<input type="number" id="hermet"></p>
+            <p>lighting amount<input type="number" id="Lighting"></p>
+            <p>glass weight<input type="number" id="glassw"></p>
+            <p>total weight<input type="number" id="totalw"></p>
+            <p>gallons of water it can hold<input type="number" id="gallonsw"></p>
+            <p>total weight including water<input type="number" id="totalww"></p>
+            <p>total cost of tank<input type="number" id="totalc"></p>
+            <p>total cost of sump<input type="number" id="totalsc"></p>
+        </div>
+        <hr/>
+    </body>
+</html>
+
