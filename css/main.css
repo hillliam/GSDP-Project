@@ -34,28 +34,32 @@
 .navigation a
 {//d3 svg
     border-color: white;
-    border-left-width: 0.5;
-    border-left-style: ridge;
-    border-right-width: 0.5;
-    border-right-style: ridge;
-    border-top-width: 0.5;
-    border-top-style: ridge;
-    border-bottom-width: 0.5;
-    border-bottom-style: ridge;
-    text-decoration:none;
-    color: white;
-    padding-right: 20px;
-    padding-left: 20px;
-    margin-right: 50px;
-    transition: font-size 5s, border-color 500ms;
+	border-left-width: 0.5;
+	border-left-style: ridge;
+	border-right-width: 0.5;
+	border-right-style: ridge;
+	border-top-width: 0.5;
+	border-top-style: ridge;
+	border-bottom-width: 0.5;
+	border-bottom-style: ridge;
+	text-decoration: none;
+	color: white;
+	padding-right: 20px;
+	padding-left: 20px;
+	margin-right: 50px;
+	transition: font-size 5s, border-color 500ms;
+	top: 100%;
 }
 .navigation a:hover
 {
-    background-color: green;
-    font-size: 2em;
+	background-color: green;
+	font-size: 2em;
+
+
     //animation-name: grow;
     //animation-duration: 5s;
     //font-size: 2em;
+	top: 90%;
 }
 .navigation a.right
 {
@@ -64,43 +68,63 @@
 
 }
 #mesure {
-	display: inline;
-	font-family: "Arial Black", Gadget, sans-serif;
-	color: #000;
-	text-decoration: none;
-	font-weight: normal;
-	font-variant: normal;
-	position: absolute;
-	visibility: visible;
-	width: auto;
-	border: thick groove #333;
-	font-size: small;
-	font-style: normal;
-	/*vertical-align: baseline;*/
-	text-align: left;
-	margin: 5%;	
-	padding: 0%;
+ display: inline;
+ font-family: "Arial Black", Gadget, sans-serif;
+ color: #000;
+ text-decoration: none;
+ font-weight: normal;
+ font-variant: normal;
+ position: absolute;
+ visibility: visible;
+ width: 100%;
+ border: thick groove #333;
+ font-size: small;
+ font-style: normal;
+ /*vertical-align: baseline;*/
+ text-align: left;
+ margin: 0.5%;
+ padding: 0%;
+ height: 100%;
+ bottom: 1px;
 }
+#options {
+	top: auto;
+	border: thick dotted #FF9;
+	position: relative;
+	bottom: 10%;
+	height: 75%;
+	width: 75%;
+	padding-top: 12px;
+	padding-right: 12px;
+	padding-bottom: 12px;
+	padding-left: 12%;
+}
+
 #mesure #tankm {
 	display: block;
 	position: relative;
-	height: 50%;
 	width: 50%;
-	border: medium double #0CC;
-	padding: 0%;
+	border: thin double #0CC;
 	margin: 0%;
+	right: 0%;
+	top: 5%;
+	padding: 0%;
+	height: auto;
 }
 #mesure #sumpm {
 	display: block;
 	position: relative;
-	height: -50%;
+	height: auto;
 	width: 50%;
-	left: 50%;
+	left: 45%;
 	border: medium dotted #CF0;
 	padding: 0%;
 	margin: 0%;
-	
+	top: 5%;
+ 
 }
 #mesure {
-    display: hidden;
+ display: hidden;
+ visibility: inherit;
+ right: 0%;
 }

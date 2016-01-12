@@ -8,10 +8,10 @@
 define("Trade_Mark_up", 25);
 define("Fit_Mark_up", 40);
 
-define("SQLHOST", "146.185.161.88");
+define("SQLHOST", "127.0.0.1");
 define("SQLUSER", "root");
-define("SQLDB", "fitfiltration");
-define("SQLPASSWORD", "dickpenis");
+define("SQLDB", "FitFiltration");
+define("SQLPASSWORD", "rasberry");
 
 function connet()
 {
@@ -28,7 +28,7 @@ function query($statment)
     $data = connet()->query($statment);
     $result = array();
     while ($row = $data->fetch_assoc()) {
-        array_push($result, $row);
+		array_push($result, $row);
     }
     return $result;
 }
