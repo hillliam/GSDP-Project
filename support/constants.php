@@ -8,10 +8,10 @@
 define("Trade_Mark_up", 25);
 define("Fit_Mark_up", 40);
 
-define("SQLHOST", "127.0.0.1");
-define("SQLUSER", "root");
-define("SQLDB", "FitFiltration");
-define("SQLPASSWORD", "rasberry");
+define("SQLHOST", "localhost");
+define("SQLUSER", "b4026826");
+define("SQLDB", "b4026826_db1");
+define("SQLPASSWORD", "abc123");
 
 function connet()
 {
