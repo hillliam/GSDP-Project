@@ -9,6 +9,10 @@ function validatethicness()
     getbaseprice(base);
     alert("unsafe thickness");
 }
+function delivPrice()
+{
+    document.getElementById("deliveryc").value = document.getElementById("delivery").value;
+}
 function validatesthicness()
 {
     var x = document.getElementById("tankx").value;

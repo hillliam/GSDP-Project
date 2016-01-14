@@ -44,7 +44,7 @@ function sumpstart()
     calculatesstat(afterDisplacement);
     var weight = (gallons * 4.55) + (((sumpWeight) + (sumpWeight * 0.1)) + 7);
     document.getElementById("stotalww").value = weight.toFixed(2);
-    document.getElementById("totalsc").value = sumpRetailCost.toFixed(2);
+    document.getElementById("totalsc").value = "£ " + sumpRetailCost.toFixed(2);
 }
 function start()
 {
@@ -153,7 +153,7 @@ function start()
     var glassSizeSiliconBracingCost = 4.50;
     var glassSizeEnergyCharge = 4.50;
     var GlassBracesSiliconEnergyCharge = glassSidesCost + glassFrontCost + glassBaseCost + glassSizeSiliconBracingCost + glassSizeEnergyCharge;
-    document.getElementById("totalc").value = retailCost.toFixed(2);
+    document.getElementById("totalc").value = "£" + retailCost.toFixed(2);
 }
 function calculatestat(afterDisplacement)
 {
