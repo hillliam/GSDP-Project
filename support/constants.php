@@ -5,8 +5,9 @@
  * places at once.
  */
 
-define("Trade_Mark_up", 25);
-define("Fit_Mark_up", 40);
+define("Trade_Mark_up", 0.25);
+define("Fit_Mark_up", 0.41);
+define("energyChargeRate", 0.28);
 
 define("SQLHOST", "localhost");
 define("SQLUSER", "b4026826");

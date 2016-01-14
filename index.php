@@ -10,6 +10,7 @@ require "support/constants.php";
         <script src="conversion.js"></script>
         <script src="rest.js"></script>
         <script src="validation.js"></script>
+        <script src="calculate.js"></script>
         <!--<link rel="stylesheet" type="text/css" href="css/main.css">-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.0.2/css/hover-min.css">
@@ -32,191 +33,9 @@ require "support/constants.php";
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
         <script>
-            function start()
-            {
-                $("#results").removeClass("hidden");
-                var length = eval(getlength());
-                var width = eval(getwidth());
-                var height = eval(gethight());
-                var base = eval(document.getElementById("tankbase").value);
-                var side = eval(document.getElementById("tankside").value);
-                var sumplength = eval(getslength());
-                var sumpwidth = eval(getswidth());
-                var sumpheight = eval(getshight());
-                var sumpbase = eval(document.getElementById("sumpbase").value);
-                var sumpside = eval(document.getElementById("sumpside").value);
-                
-                var markUpPercentage = 0.41;
-                var tradeMarkUpPercentage = 0.25;
-                var energyChargeRate = 0.28;
-                
-                /*glass sizes base cost = if (tank base == 6){
-                 (glassSizesBaseLength * glassSizesBaseWidth) * ((GlasspricePersqm/1000)/1000)
-                 } else if (tank base == 8){
-                 (glassSizesBaseLength * glassSizesBaseWidth) * ((glassPricesPerSqM/1000)/1000)
-                 (continue ad infintum based on tank base = glass size which defines the glass price perSqM) */
-
-                var glassPricesPerSqM = (eval(basethinknesscost)/1000000);
-                var glassPricesPerSqmSide = (eval(sidethinknesscost)/1000000);
-                
-                var sumpPricesPerSqM = (eval(sumpbasethicknesscost)/1000000);
-                var sumpPricesPerSqmSide = (eval(sumpsidethicknesscost)/1000000);
-                
-//if (base == 6 || base == 8) //FIXME: scot
-                //{
-                //    glassSizesBaseCost = (glassSizesBaseLength * glassBaseWidth) * ((glassPricesPerSqM / 1000) / 1000);
-                //}
-                //Glass sizes Front/back length = roundup (tank length * 2.54) * 10
-                
-                /*Glass Sizes front/back width = if (length = X){
-                 (Tank height - X ) *2.54 * 10
-                 } (changes, lots of vars)*/
-                var glassFrontWidth = Math.ceil((height*2.54)*10) - base;
-                var glassSideLength = Math.ceil((width*2.54)*10)- ((side*2)+2);
-                var glassFrontLength = Math.ceil((length * 2.54) * 10);
-                var glassBaseWidth = Math.ceil((width * 2.54) * 10);
-                
-                var sumpFrontWidth = Math.ceil((sumpheight * 2.54) * 10) - sumpbase;
-                var sumpFrontLength = Math.ceil((sumplength * 2.54) * 10);
-                var sumpSideLength = Math.ceil((sumpwidth * 2.54) * 10) - ((sumpside*2)+2);
-                var sumpBaseWidth = Math.ceil((sumpwidth * 2.54) * 10);
-                
-                var glassSidesCost = ((glassSideLength * glassFrontWidth) * glassPricesPerSqmSide)*2;
-                var glassBaseCost = (glassFrontLength * glassBaseWidth) * glassPricesPerSqM;
-                var glassFrontCost = ((glassFrontWidth * glassFrontLength) * glassPricesPerSqmSide)*2;
-                var sidePlatesLowIron = (glassSidesCost * 0.47) / 1.2;
-                
-                var sumpSidesCost = ((sumpSideLength * sumpFrontWidth) * sumpPricesPerSqmSide);
-                var sumpBaseCost = ((sumpFrontLength * sumpBaseWidth)* sumpPricesPerSqM);
-                var sumpFrontCost = ((sumpFrontWidth * sumpFrontLength) * sumpPricesPerSqmSide);
-                
-                var sumpSilliconBracing = (sumpSidesCost + sumpFrontCost + sumpBaseCost) / 3;
-                
-                var frontWeight = ((((glassFrontLength * glassFrontWidth)/10000) * (side * 2.5)) / 100);
-                var sideWeight = ((((glassSideLength * glassFrontWidth) / 10000) * (side * 2.5)) / 100);
-                var baseWeight = ((((((length*2.54)*10) * ((width*2.54)*10)) / 10000) * (base * 2.5)) / 100);
-                var glassWeight = frontWeight + sideWeight + baseWeight;
-                
-                var sumpFrontWeight = ((((sumpFrontLength * sumpFrontWidth)/10000) * (sumpside * 2.5)) / 100);
-                var sumpSideWeight = ((((sumpSideLength * glassFrontWidth) / 10000) * (sumpside * 2.5)) / 100);
-                var sumpBaseWeight = ((((((sumplength*2.54)*10) * ((sumpwidth*2.54)*10)) / 10000) * (sumpbase * 2.5)) / 100);
-                var sumpWeight = sumpFrontWeight + sumpSideWeight + sumpBaseWeight;
-                
-                var sumpEnergyCharge = (sumpWeight * energyChargeRate);
-                var sumpBuildTimeCharge = (sumplength + sumpwidth + sumpheight) / 1.2;
-
-                var sumpTotalCharge = (sumpEnergyCharge + sumpFrontCost + sumpSidesCost + sumpBaseCost + sumpSilliconBracing);
-                var sumpMarkUpFit = sumpTotalCharge * markUpPercentage;
-                
-                var sumpShopEarns = (sumpTotalCharge + sumpBuildTimeCharge + sumpMarkUpFit) * tradeMarkUpPercentage;
-                var sumpRetailCost = (sumpShopEarns + sumpMarkUpFit + sumpBuildTimeCharge + sumpTotalCharge)
-                
-                /*glass Sizes front/back cost = if (thickness  = X){
-                 (front back width *  front back length) * (GlassPricesPerSqm/1000/1000) 
-                 }y = glassPricesPerSqM
-                 */
-
-                var glassPriceLowIronFront = (glassFrontCost * 0.47)/1.2;
-                var glassSilliconBracing = (glassSidesCost + glassFrontCost + glassBaseCost) / 3;
-
-                var energyCharge = (glassWeight * energyChargeRate);
-
-                var buildTimeCharge = (length + width + height) / 1.2;
-
-
-                var totalCharge = (energyCharge + glassFrontCost + glassSidesCost + glassBaseCost + glassSilliconBracing);
-
-                var markUpFit = totalCharge * markUpPercentage;
-                var tradeMarkUp = totalCharge * tradeMarkUpPercentage;
-
-                var markUpTotal = markUpPercentage + tradeMarkUpPercentage;
-                var shopEarns = (totalCharge + buildTimeCharge + markUpFit) * tradeMarkUpPercentage;
-                
-                var retailCost = (shopEarns + markUpFit + buildTimeCharge + totalCharge)
-                
-                // YOOOO RIGHT HERE//
-                
-                var topBottomRails = Math.ceil((length * 2.54) * 10 + 5);
-                var topBottomRailsQty = 5;
-                var leftRightRails = Math.ceil((width * 2.54) * 10 + 5);
-                var leftRightRailsQty = 5;
-
-                var legs = 730;
-                var legsQuantity = length / 9;
-
-                var sumpRails = leftRightRails;
-                var sumpRailsQty = legsQuantity;
-                
-
-
-                var total50x25 = (topBottomRails * topBottomRailsQty) + (leftRightRails * leftRightRailsQty);
-                var total25x25 = (legs * legsQuantity) + (sumpRails * sumpRailsQty);
-                var frontBackGlassX2 = (Math.ceil(length * 2.54) * 10) * (Math.ceil(height * 2.540 * 10));
-                var sidesGlassX2 = (((Math.ceil(width * 2.54) * 10) - side * 2) - 10) * (Math.ceil(height * 2.54) * 10);
-                var baseGlassX2 = (((Math.ceil(width * 2.54) * 10) - side * 2) - 10) * ((((Math.ceil(length * 2.54) * 10) - side * 2) - 10) / 2)
-
-                var glassSidePlatesCost = (length * width) * glassPricesPerSqM;
-                var total = ((length * width) / 14) + ((length * width) / 45) + ((length * width) / 44) + ((length * width) / 54) + 3.5 * 6.50;
-
-                var frameTradeMarkUp = 10;
-                var frameFitMarkUp = 10;
-                var MetalFrame = (total * frameTradeMarkUp) + (total * frameFitMarkUp) + total;
-
-                document.getElementById("glassw").value = glassWeight;
-                document.getElementById("totalw").value = ((glassWeight) + (glassWeight * 0.1)) + 7;
-
-                var gallons = ((length / 12) * (height / 12) * (width / 12)) * 6.25;
-                document.getElementById("gallonsw").value = gallons;
-                var afterDisplacement = gallons - (gallons * 0.1);
-                document.getElementById("displacment").value = afterDisplacement;
-                calculatestat(afterDisplacement);
-                document.getElementById("totalww").value = (gallons * 4.55) + (((glassWeight) + (glassWeight * 0.1)) + 7);
-
-                var MarkUpCombined = markUpTotal;
-                var glassSizeSiliconBracingCost =4.50;
-                var glassSizeEnergyCharge = 4.50;
-                var GlassBracesSiliconEnergyCharge = glassSidesCost + glassFrontCost + glassBaseCost + glassSizeSiliconBracingCost + glassSizeEnergyCharge;
-                document.getElementById("totalc").value = retailCost;
-                document.getElementById("totalsc").value = sumpRetailCost;
-            }
-            function calculatestat(afterDisplacement)
-            {
-                document.getElementById("LiveRock").value = (afterDisplacement / 1.7);
-                document.getElementById("fishStocking").value = afterDisplacement / 4;
-                document.getElementById("turboSnail").value = afterDisplacement / 2;
-                document.getElementById("hermet").value = afterDisplacement / 4;
-                document.getElementById("Lighting").value = afterDisplacement * 4;
-            }
-            function cladwood(length, width, glossBoards)
-            {
-                return (length * width / glossBoards) * 21;
-            }
-            function clasgloss(length, width, woodBoards)
-            {
-                return (length * width / woodBoards) * 14;
-            }
-            function acryliccab(length, width, acrylic)
-            {
-                return (length * width) / acrylic * 65;
-            }
-            function glosscab(length, width, woodboards)
-            {
-                return (length * width) / woodboards * 41;
-            }
-            function woodcab(length, width, woodboards)
-            {
-                return (length * width) / woodboards * 27;
-            }
-            function WoodLid(length, width, woodBoard)
-            {
-                var pelmetWoodLid = (length * width) / woodBoard * 7;
-                var pelmetWoodLidSump = pelmetWoodLid * 0.5;
-            }
-            function GlossLid(length, width, glossBoards)
-            {
-                var PelmetGlossLid = (length * width) / glossBoards * 11;
-                var pelmetGlossLidSump = PelmetGlossLid * 0.5;
-            }
+                var markUpPercentage = <?php print Fit_Mark_up; ?>;
+                var tradeMarkUpPercentage = <?php print Trade_Mark_up; ?>;
+                var energyChargeRate = <?php print energyChargeRate; ?>;
         </script>
     </head>
     <body class="jumbotron">
@@ -301,7 +120,7 @@ require "support/constants.php";
                         ?>
                     </select></p>
             </div>
-            <p><button class="btn hvr-grow btn-success center-block" value="calculate" id="calculate" onclick="start();"><i class="fa fa-calculator fa-2x"></i> Calculate!</button></p>
+            <p><button class="btn hvr-grow btn-success center-block" value="calculate" id="calculate" onclick="start();sumpstart();"><i class="fa fa-calculator fa-2x"></i> Calculate!</button></p>
         </div>
         <div id="options" class="container bg-warning">
             <p>Tank lid: <select class="center-block selectpicker" id="lidtype">
@@ -333,6 +152,7 @@ require "support/constants.php";
                 </select></p>
         </div>
         <div id="results" class="container hidden bg-warning">
+            <h2>tank mesurments</h2>
             <p>After displacment (Kg):<input class="" type="number" id="displacment"></p>
             <p>Amount of Rock (Kg):<input class="" type="number" id="LiveRock"></p>
             <p>Fish Stocking (Inches): <input class="" type="number" id="fishStocking"><select value="inches" class="selectpicker" id="fishbase" onchange="updatestocking();">
@@ -348,6 +168,23 @@ require "support/constants.php";
             <p>Gallons of water it can hold:<input class="" type="number" id="gallonsw"></p>
             <p>Total weight including water (Kg):<input class="" type="number" id="totalww"></p>
             <p>Total cost of tank:<input class="center-block" type="number" id="totalc"></p>
+        </div>
+                <div id="sresults" class="container hidden bg-warning">
+                    <h2>sump mesurments</h2>
+            <p>After displacment (Kg):<input class="" type="number" id="sdisplacment"></p>
+            <p>Amount of Rock (Kg):<input class="" type="number" id="sLiveRock"></p>
+            <p>Fish Stocking (Inches): <input class="" type="number" id="sfishStocking"><select value="inches" class="selectpicker" id="fishbase" onchange="updatestocking();">
+                    <option value="cm">cm</option>
+                    <option value="mm">mm</option>
+                    <option value="inches" selected="">inches</option>
+                </select></p>
+            <p>Turbo Snails to keep tank clean (Kg):<input class="" type="number" id="sturboSnail"></p>
+            <p>Hermets in Tank (Kg):<input class="" type="number" id="shermet"></p>
+            <p>Lighting Amount (Watts):<input class="" type="number" id="sLighting"></p>
+            <p>Glass weight (Kg):<input class="" type="number" id="sglassw"></p>
+            <p>Total weight (Kg):<input class="" type="number" id="stotalw"></p>
+            <p>Gallons of water it can hold:<input class="" type="number" id="sgallonsw"></p>
+            <p>Total weight including water (Kg):<input class="" type="number" id="stotalww"></p>
             <p>Total cost of sump:<input class="center-block" type="number" id="totalsc"></p>
         </div>
         <div id="delivary" class="container bg-warning">
