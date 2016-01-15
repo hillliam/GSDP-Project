@@ -1,4 +1,4 @@
 <?php
 require "../support/constants.php";
-query("delete `b4026826_db1`.`orders`" . " where id=" . $_GET["g"]);
+query("DELETE from `b4026826_db1`.`orders`" . " where id=" . $_GET["g"]);
 

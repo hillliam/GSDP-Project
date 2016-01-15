@@ -226,6 +226,8 @@ if (!isset($_GET["g"])) {
             <p><button class="btn hvr-grow btn-success center-block" value="calculate" id="calculate" onclick="options();"><i class="fa fa-calculator fa-2x"></i> Calculate!</button></p>
         </div>
         <div id="options" class="container bg-warning">
+            <p>low iron front: <input class="" type="checkbox" readonly="" id="lowf"></p>
+            <p>low iron side: <input class="" type="checkbox" readonly="" id="lows"></p>
             <p>Tank lid: <select class="center-block selectpicker" id="lidtype">
                     <option value="none">None</option>       
                     <?php
@@ -244,6 +246,20 @@ if (!isset($_GET["g"])) {
                     endforeach;
                     ?>
                 </select></p>
+                            <p>frame type: <select class="center-block selectpicker" id="mattype"> 
+                    <option value="wood" selected="">wood</option>
+                    <option value="metal">metal</option>
+                </select>
+            </p>
+        </div>
+        <div id="instructions" class="container bg-warning">
+            <h2>cutting instructions</h2>
+            <p>front Back :<input class="" readonly type="number" id="cutf"></p>
+            <p>sides Glass :<input class="" type="number" readonly id="cuts"></p>
+            <p>base Glass :<input class="" type="number" readonly="" id="cutb"></p>
+            <p>total 50x25 :<input class="" type="number" readonly="" id="t5"></p>
+            <p>total 25x25:<input class="" type="number" readonly="" id="t2"></p>
+            <p>glass energy charge:<input class="" type="number" readonly="" id="gengg"></p>
         </div>
         <div id="results" class="container hidden bg-warning">
             <h2>tank mesurments</h2>
@@ -283,10 +299,12 @@ if (!isset($_GET["g"])) {
         </div>
         <div id="oresults" class="container hidden bg-warning">
             <h2>option prices</h2>
-
             <p>lid price £:<input class="" type="number" id="totallc"></p>
             <p>cabinet under the tank price £:<input class="center-block" type="number" id="totalcab"></p>
-            <p>frame price £:<input class="center-block" type="number" id="totalframe"></p>
+            <p>wood cabinet price £:<input class="center-block" type="number" id="totalwframe"></p>
+            <p>metal frame price £:<input class="center-block" type="number" id="totalmframe"></p>
+            <p>cladded wood £:<input class="center-block" type="number" id="cw"></p>
+            <p>cladded gloss £:<input class="center-block" type="number" id="cg"></p>
         </div>
         <div id="delivary" class="container bg-warning">
             <p>Select the post code nearest to you:<select class="center-block selectpicker" id="delivery" onchange="delivPrice();">

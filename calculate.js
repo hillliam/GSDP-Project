@@ -1,6 +1,7 @@
 function sumpstart()
 {
     $("#sresults").removeClass("hidden");
+    $("#oresults").removeClass("hidden");
     var sumplength = eval(getslength());
     var sumpwidth = eval(getswidth());
     var sumpheight = eval(getshight());
@@ -150,7 +151,7 @@ function start()
     var glassBaseCost = (glassFrontLength * glassBaseWidth) * glassPricesPerSqM;
     var glassFrontCost = ((glassFrontWidth * glassFrontLength) * glassPricesPerSqmSide) * 2;
     var sidePlatesLowIron = (glassSidesCost * 0.47) / 1.2;
-
+ 
     var frontWeight = ((((glassFrontLength * glassFrontWidth) / 10000) * (side * 2.5)) / 100);
     var sideWeight = ((((glassSideLength * glassFrontWidth) / 10000) * (side * 2.5)) / 100);
     var baseWeight = ((((((length * 2.54) * 10) * ((width * 2.54) * 10)) / 10000) * (base * 2.5)) / 100);
@@ -163,7 +164,7 @@ function start()
 
     var glassPriceLowIronFront = (glassFrontCost * 0.47) / 1.2;
     var glassSilliconBracing = (glassSidesCost + glassFrontCost + glassBaseCost) / 3;
-
+    document.getElementById("lowf").value = glassPriceLowIronFront;
     var energyCharge = (glassWeight * energyChargeRate);
 
     var buildTimeCharge = (length + width + height) / 1.2;
@@ -197,14 +198,27 @@ function start()
     var frontBackGlassX2 = (Math.ceil(length * 2.54) * 10) * (Math.ceil(height * 2.540 * 10));
     var sidesGlassX2 = (((Math.ceil(width * 2.54) * 10) - side * 2) - 10) * (Math.ceil(height * 2.54) * 10);
     var baseGlassX2 = (((Math.ceil(width * 2.54) * 10) - side * 2) - 10) * ((((Math.ceil(length * 2.54) * 10) - side * 2) - 10) / 2)
-
+    document.getElementById("cutf").value = frontBackGlassX2;
+    document.getElementById("cuts").value = sidesGlassX2;
+    document.getElementById("cutb").value = baseGlassX2;
+    document.getElementById("t5").value = total50x25;
+    document.getElementById("t2").value = total25x25;
     var glassSidePlatesCost = (length * width) * glassPricesPerSqM;
-    var total = ((length * width) / 14) + ((length * width) / 45) + ((length * width) / 44) + ((length * width) / 54) + 3.5 * 6.50;
+    
+    document.getElementById("lows").value = glassSidePlatesCost;
 
-    var frameTradeMarkUp = 10;
-    var frameFitMarkUp = 10;
+    var frameTotalMetal = ((length * width) / 14);
+    var frameTBBoards = ((length * width) / 45);
+    var framePowder = ((length * width) / 44);
+    var frameFeet = ((length * width) / 54);
+    var frameBuildTime = 120;
+    var total = frameTotalMetal + frameTBBoards + framePowder + frameFeet + frameBuildTime;
+
+    var frameTradeMarkUp = 0.25;
+    var frameFitMarkUp = 0.40;
     var MetalFrame = (total * frameTradeMarkUp) + (total * frameFitMarkUp) + total;
-
+    document.getElementById("totalmframe").value = MetalFrame.toFixed(2);
+    document.getElementById("totalwframe").value = woodcab(length, width, height, 2).toFixed(2);
     document.getElementById("glassw").value = glassWeight.toFixed(2);
     document.getElementById("totalw").value = (((glassWeight) + (glassWeight * 0.1)) + 7).toFixed(2);
 
@@ -220,7 +234,10 @@ function start()
     var glassSizeSiliconBracingCost = 4.50;
     var glassSizeEnergyCharge = 4.50;
     var GlassBracesSiliconEnergyCharge = glassSidesCost + glassFrontCost + glassBaseCost + glassSizeSiliconBracingCost + glassSizeEnergyCharge;
+    document.getElementById("gengg").value = GlassBracesSiliconEnergyCharge.toFixed(2);
     document.getElementById("totalc").value = retailCost.toFixed(2);
+    document.getElementById("cw").value = cladwood(length, width, height, 2);
+    document.getElementById("cg").value = clasgloss(length, width, height, 2);
 }
 function calculatestat(afterDisplacement)
 {

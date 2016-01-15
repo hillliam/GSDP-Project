@@ -76,14 +76,14 @@ function complete(item)
 }
 function placeorder()
 {
-    var x = document.getElementById("tankx").value;
-    var y = document.getElementById("tanky").value;
-    var z = document.getElementById("tankz").value;
+    var x = eval(getlength());
+    var y = eval(getwidth());
+    var z = eval(gethight());
     var base = document.getElementById("base").value;
     var side = document.getElementById("side").value;
-    var sx = document.getElementById("sumpx").value;
-    var sy = document.getElementById("sumpy").value;
-    var sz = document.getElementById("sumpz").value;
+    var sx = eval(getslength());
+    var sy = eval(getswidth());
+    var sz = eval(getshight());
     var sbase = document.getElementById("base").value;
     var sside = document.getElementById("side").value;
     var lid = document.getElementById("lidtype").value;
