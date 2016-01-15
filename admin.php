@@ -1,6 +1,10 @@
 <?php
 require "support/constants.php";
 //phpinfo();
+if (!isset($_GET["g"])) {
+    print "please login";
+    die();
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,6 +40,23 @@ require "support/constants.php";
             var markUpPercentage = <?php print Fit_Mark_up; ?>;
             var tradeMarkUpPercentage = <?php print Trade_Mark_up; ?>;
             var energyChargeRate = <?php print energyChargeRate; ?>;
+            getallprice();
+            getsallprice();
+            function update()
+            {
+                if (document.getElementById("tabletypes").value == "all")
+                {
+                    window.location.href = 'admin.php?g=1';
+                }
+                else if (document.getElementById("tabletypes").value == "compleated")
+                {
+                    window.location.href = 'admin.php?g=1&a=1';
+                }
+                else if (document.getElementById("tabletypes").value == "not compleated")
+                {
+                    window.location.href = 'admin.php?g=1&a=2';
+                }
+            }
         </script>
     </head>
     <body class="jumbotron">
@@ -47,6 +68,11 @@ require "support/constants.php";
             runs any PHP code inside it
         -->
         <div id ="manage" class="container bg-warning">
+            <p>show:<select class="selectpicker" id="tabletypes" onchange="update();">
+                    <option value="all" selected="">all</option>
+                    <option value="compleated">compleated</option>
+                    <option value="not compleated">not compleated</option>
+                </select></p>
             <table class="table table-bordered table-striped" border="10">
                 <tr>
                     <th>customer id</th>
@@ -63,30 +89,90 @@ require "support/constants.php";
                     <th>lowiorn</th>
                     <th>frame</th>
                     <th>lid</th>
+                    <?php
+                    if (!isset($_GET["a"])) {
+                        print "<th>compleated</th>";
+                    } else if (isset($_GET["a"])) {
+                        if ($_GET["a"] != 1) {
+                            print "<th>compleated</th>";
+                        }
+                    }
+                    ?>
                     <th>remove</th>
                 </tr>
-            <?php
-            $arrays = query("select * from `b4026826_db1`.`orders`");
-            foreach ($arrays as $it):
-                print "<tr>";
-            print "<td>" . $it["id"] . "</td>";
-                print "<td>" . $it["tankx"] . "</td>";
-                print "<td>" . $it["tanky"] . "</td>";
-                print "<td>" . $it["tankz"] . "</td>";
-                print "<td>" . $it["sidethickness"] . "</td>";
-                print "<td>" . $it["basethickness"] . "</td>";
-                print "<td>" . $it["sumpx"] . "</td>";
-                print "<td>" . $it["sumpy"] . "</td>";
-                print "<td>" . $it["sumpz"] . "</td>";
-                print "<td>" . $it["sumpside"] . "</td>";
-                print "<td>" . $it["sumpbase"] . "</td>";
-                print "<td>" . $it["lowiron"] . "</td>";
-                print "<td>" . $it["frametype"] . "</td>";
-                print "<td>" . $it["lidtype"] . "</td>";
-                print "<td>" . "<button class=\"btn hvr-grow btn-success center-block\" value=\"remove\" id=\"remove\" onclick=\"remove(" . $it["id"] . ")\"><i class=\"fa fa-trash\"></i>remove</button>" . "</td>";
-                print "</tr>";
-            endforeach;
-            ?>
+                <?php
+                if (isset($_GET["a"])) {
+                    if ($_GET["a"] == 1) {
+                        $arrays = query("select * from `b4026826_db1`.`orders` where compleated = 1");
+                        foreach ($arrays as $it):
+                            print "<tr>";
+                            print "<td>" . $it["id"] . "</td>";
+                            print "<td>" . $it["tankx"] . "</td>";
+                            print "<td>" . $it["tanky"] . "</td>";
+                            print "<td>" . $it["tankz"] . "</td>";
+                            print "<td>" . $it["sidethickness"] . "</td>";
+                            print "<td>" . $it["basethickness"] . "</td>";
+                            print "<td>" . $it["sumpx"] . "</td>";
+                            print "<td>" . $it["sumpy"] . "</td>";
+                            print "<td>" . $it["sumpz"] . "</td>";
+                            print "<td>" . $it["sumpside"] . "</td>";
+                            print "<td>" . $it["sumpbase"] . "</td>";
+                            print "<td>" . $it["lowiron"] . "</td>";
+                            print "<td>" . $it["frametype"] . "</td>";
+                            print "<td>" . $it["lidtype"] . "</td>";
+                            //print "<td>" . "<button class=\"btn hvr-grow btn-success center-block\" value=\"remove\" id=\"remove\" onclick=\"remove(" . $it["id"] . ")\"><i class=\"fa fa-trash\"></i>remove</button>" . "</td>";
+                            print "<td>" . "<button class=\"btn hvr-grow btn-success center-block\" value=\"remove\" id=\"remove\" onclick=\"remove(" . $it["id"] . ")\"><i class=\"fa fa-trash\"></i>remove</button>" . "</td>";
+                            print "</tr>";
+                        endforeach;
+                    }
+                    else if ($_GET["a"] == 2) {
+                        $arrays = query("select * from `b4026826_db1`.`orders` where compleated != 1");
+                        foreach ($arrays as $it):
+                            print "<tr>";
+                            print "<td>" . $it["id"] . "</td>";
+                            print "<td>" . $it["tankx"] . "</td>";
+                            print "<td>" . $it["tanky"] . "</td>";
+                            print "<td>" . $it["tankz"] . "</td>";
+                            print "<td>" . $it["sidethickness"] . "</td>";
+                            print "<td>" . $it["basethickness"] . "</td>";
+                            print "<td>" . $it["sumpx"] . "</td>";
+                            print "<td>" . $it["sumpy"] . "</td>";
+                            print "<td>" . $it["sumpz"] . "</td>";
+                            print "<td>" . $it["sumpside"] . "</td>";
+                            print "<td>" . $it["sumpbase"] . "</td>";
+                            print "<td>" . $it["lowiron"] . "</td>";
+                            print "<td>" . $it["frametype"] . "</td>";
+                            print "<td>" . $it["lidtype"] . "</td>";
+                            print "<td>" . "<button class=\"btn hvr-grow btn-success center-block\" value=\"remove\" id=\"complete\" onclick=\"complete(" . $it["id"] . ")\"><i class=\"fa fa-check\"></i>complete</button>" . "</td>";
+                            print "<td>" . "<button class=\"btn hvr-grow btn-success center-block\" value=\"remove\" id=\"remove\" onclick=\"remove(" . $it["id"] . ")\"><i class=\"fa fa-trash\"></i>remove</button>" . "</td>";
+                            print "</tr>";
+                        endforeach;
+                    }
+                }
+                else {
+                    $arrays = query("select * from `b4026826_db1`.`orders`");
+                    foreach ($arrays as $it):
+                        print "<tr>";
+                        print "<td>" . $it["id"] . "</td>";
+                        print "<td>" . $it["tankx"] . "</td>";
+                        print "<td>" . $it["tanky"] . "</td>";
+                        print "<td>" . $it["tankz"] . "</td>";
+                        print "<td>" . $it["sidethickness"] . "</td>";
+                        print "<td>" . $it["basethickness"] . "</td>";
+                        print "<td>" . $it["sumpx"] . "</td>";
+                        print "<td>" . $it["sumpy"] . "</td>";
+                        print "<td>" . $it["sumpz"] . "</td>";
+                        print "<td>" . $it["sumpside"] . "</td>";
+                        print "<td>" . $it["sumpbase"] . "</td>";
+                        print "<td>" . $it["lowiron"] . "</td>";
+                        print "<td>" . $it["frametype"] . "</td>";
+                        print "<td>" . $it["lidtype"] . "</td>";
+                        print "<td>" . "<button class=\"btn hvr-grow btn-success center-block\" value=\"remove\" id=\"remove\" onclick=\"complete(" . $it["id"] . ")\"><i class=\"fa fa-check\"></i>complete</button>" . "</td>";
+                        print "<td>" . "<button class=\"btn hvr-grow btn-success center-block\" value=\"remove\" id=\"remove\" onclick=\"remove(" . $it["id"] . ")\"><i class=\"fa fa-trash\"></i>remove</button>" . "</td>";
+                        print "</tr>";
+                    endforeach;
+                }
+                ?>
             </table>
         </div>
         <div id="mesure" class="container bg-warning">
@@ -97,6 +183,7 @@ require "support/constants.php";
                 </select>
             </p>
             <div id="tankm" class="container bg-warning">
+                <input type="checkbox" id = "tankCheck" checked onChange="disableTank();"> I would like a tank<br>
                 <p>Tank length:<input class="" type="number" id="tankx">
                     <select class="selectpicker" id="tankxtype">
                         <option value="cm">cm</option>
@@ -113,24 +200,11 @@ require "support/constants.php";
                         <option value="mm">mm</option>
                         <option value="inches" selected>inches</option>
                     </select></p>
-                <p>Base glass thickness: <select class="center-block selectpicker" id="tankbase" onChange="validatethicness();">
-                        <?php
-                        $arrays = query("select Thickness from GlassPrices");
-                        foreach ($arrays as $it):
-                            print "<option value=\"" . $it["Thickness"] . "\">" . $it["Thickness"] . "</option>";
-                        endforeach;
-                        ?>
-                    </select></p>
-                <p>Side glass thickness: <select class="center-block selectpicker" id="tankside" onChange="validatesthicness();"> 
-                        <?php
-                        $arrays = query("select Thickness from GlassPrices");
-                        foreach ($arrays as $it):
-                            print "<option value=\"" . $it["Thickness"] . "\">" . $it["Thickness"] . "</option>";
-                        endforeach;
-                        ?>
-                    </select></p>
+                <p>Base glass thickness: <input class="" type="number" readonly="" id="side"></p>
+                <p>Side glass thickness: <input class="" type="number" readonly="" id="base"></p>
             </div>
             <div id="sumpm" class="container bg-warning">
+                <input type="checkbox" id = "SumpCheck" checked onChange="disableSump();"> I would like a sump<br>
                 <p>Sump length:<input class="" type="number" id="sumpx"><select class="selectpicker" id="sumpxtype">
                         <option value="cm">cm</option>
                         <option value="mm">mm</option>
@@ -146,37 +220,13 @@ require "support/constants.php";
                         <option value="mm">mm</option>
                         <option value="inches" selected="">inches</option>
                     </select></p>
-                <p>Base glass thickness: <select class="center-block selectpicker" id="sumpbase" onChange="validatesumpthicness();">    
-                        <?php
-                        $arrays = query("select Thickness from GlassPrices");
-                        foreach ($arrays as $it):
-                            print "<option value=\"" . $it["Thickness"] . "\">" . $it["Thickness"] . "</option>";
-                        endforeach;
-                        ?>
-                    </select></p>
-                <p>Side glass thickness: <select class="center-block selectpicker" id="sumpside" onChange="validatesumpsthicness();">
-                        <?php
-                        $arrays = query("select Thickness from GlassPrices");
-                        foreach ($arrays as $it):
-                            print "<option value=\"" . $it["Thickness"] . "\">" . $it["Thickness"] . "</option>";
-                        endforeach;
-                        ?>
-                    </select></p>
+                <p>Base glass thickness: <input class="" type="number" readonly="" id="sside"></p>
+                <p>Side glass thickness: <input class="" type="number" readonly="" id="sbase"></p>
             </div>
-            <p><button class="btn hvr-grow btn-success center-block" value="calculate" id="calculate" onclick="start();
-                    sumpstart();"><i class="fa fa-calculator fa-2x"></i> Calculate!</button></p>
+            <p><button class="btn hvr-grow btn-success center-block" value="calculate" id="calculate" onclick="options();"><i class="fa fa-calculator fa-2x"></i> Calculate!</button></p>
         </div>
         <div id="options" class="container bg-warning">
             <p>Tank lid: <select class="center-block selectpicker" id="lidtype">
-                    <option value="none">None</option>       
-                    <?php
-                    $arrays = query("select Type from FrameOptions");
-                    foreach ($arrays as $it):
-                        print "<option value=\"" . $it["Type"] . "\">" . $it["Type"] . "</option>";
-                    endforeach;
-                    ?>
-                </select></p>
-            <p>Sump lid: <select class="center-block  selectpicker" id="slidtype">
                     <option value="none">None</option>       
                     <?php
                     $arrays = query("select Type from FrameOptions");
@@ -204,7 +254,7 @@ require "support/constants.php";
                     <option value="mm">mm</option>
                     <option value="inches" selected="">inches</option>
                 </select></p>
-                <p>Turbo Snails to keep tank clean (Kg):<input class="" readonly type="number" id="turboSnail"></p>
+            <p>Turbo Snails to keep tank clean (Kg):<input class="" readonly type="number" id="turboSnail"></p>
             <p>Hermets in Tank (Kg):<input class="" type="number" readonly id="hermet"></p>
             <p>Lighting Amount (Watts):<input class="" type="number" readonly="" id="Lighting"></p>
             <p>Glass weight (Kg):<input class="" type="number" readonly="" id="glassw"></p>
@@ -231,6 +281,13 @@ require "support/constants.php";
             <p>Total weight including water (Kg):<input class="" readonly="" type="number" id="stotalww"></p>
             <p>Total cost of sump £:<input class="" type="number" readonly="" id="totalsc"></p>
         </div>
+        <div id="oresults" class="container hidden bg-warning">
+            <h2>option prices</h2>
+
+            <p>lid price £:<input class="" type="number" id="totallc"></p>
+            <p>cabinet under the tank price £:<input class="center-block" type="number" id="totalcab"></p>
+            <p>frame price £:<input class="center-block" type="number" id="totalframe"></p>
+        </div>
         <div id="delivary" class="container bg-warning">
             <p>Select the post code nearest to you:<select class="center-block selectpicker" id="delivery" onchange="delivPrice();">
                     <?php
@@ -240,8 +297,8 @@ require "support/constants.php";
                     endforeach;
                     ?>
                 </select></p>
-                <p>Delivery £:<input class="center-block" readonly="" type="number" id="deliveryc"></p>
-                <p>House number:<input class="center-block" type="number" id="housenum"></p>
+            <p>Delivery £:<input class="center-block" readonly="" type="number" id="deliveryc"></p>
+            <p>House number:<input class="center-block" type="number" id="housenum"></p>
             <p>Postcode to deliver to:<input class="center-block" type="text" id="customera"></p>
             <p><button class="btn hvr-grow btn-info center-block" value="get adress from postcode" onclick="getadressfrompostcode();"><i class="fa fa-home fa-2x"></i>Get address from postcode</button></p>
             <p>Address line 1:<input class="center-block" type="text" id="customera1"></p>

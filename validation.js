@@ -1,48 +1,6 @@
-function validatethicness()
-{
-    var x = document.getElementById("tankx").value;
-    var y = document.getElementById("tanky").value;
-    var z = document.getElementById("tankz").value;
-    var base = document.getElementById("tankbase").value;
-    var side = document.getElementById("tankside").value;
-    var area = x * y;
-    getbaseprice(base);
-    alert("unsafe thickness");
-}
 function delivPrice()
 {
     document.getElementById("deliveryc").value = document.getElementById("delivery").value;
-}
-function validatesthicness()
-{
-    var x = document.getElementById("tankx").value;
-    var y = document.getElementById("tanky").value;
-    var z = document.getElementById("tankz").value;
-    var base = document.getElementById("tankbase").value;
-    var side = document.getElementById("tankside").value;
-    getsideprice(side);
-    alert("unsafe thickness");
-}
-function validatesumpthicness()
-{
-    var x = document.getElementById("sumpx").value;
-    var y = document.getElementById("sumpy").value;
-    var z = document.getElementById("sumpz").value;
-    var base = document.getElementById("sumpbase").value;
-    var side = document.getElementById("sumpside").value;
-    var area = x * y;
-    getSprice(base);
-    alert("unsafe thickness");
-}
-function validatesumpsthicness()
-{
-    var x = document.getElementById("sumpx").value;
-    var y = document.getElementById("sumpy").value;
-    var z = document.getElementById("sumpz").value;
-    var base = document.getElementById("sumpbase").value;
-    var side = document.getElementById("sumpside").value;
-    getSsideprice(side);
-    alert("unsafe thickness");
 }
 
 function getlength()
@@ -163,4 +121,87 @@ function updatestocking()
         }
     }
     document.getElementById("fishStocking").value = sumpheight;
+}
+function disableTank()
+{
+    if (document.getElementById("tankCheck").checked) {
+
+        $("#tankx").removeAttr("disabled", "disabled");
+
+        $("#tanky").removeAttr("disabled", "disabled");
+
+        $("#tankz").removeAttr("disabled", "disabled");
+        $("tankxtype").removeClass("hidden");
+        $("#tankbase").removeAttr("disabled", "disabled");
+        $("#tankbase").prop("disabled", false);
+        $("#tankxtype").prop("disabled", false);
+        $("#tankytype").prop("disabled", false);
+        $("#tankztype").prop("disabled", false);
+        $("#tankside").prop("disabled", false);
+    }
+    else
+    {
+        $("#tankx").attr("disabled", "disabled");
+
+        $("#tanky").attr("disabled", "disabled");
+
+        $("#tankz").attr("disabled", "disabled");
+        $("tankxtype").attr("disabled", "disabled");
+        $("#tankbase").prop("disabled", true);
+        $("#tankxtype").prop("disabled", true);
+        $("#tankytype").prop("disabled", true);
+        $("#tankztype").prop("disabled", true);
+        $("#tankside").prop("disabled", true);
+    }
+
+}
+function disableSump()
+{
+    if (document.getElementById("SumpCheck").checked) {
+
+        $("#sumpx").removeAttr("disabled", "disabled");
+
+        $("#sumpy").removeAttr("disabled", "disabled");
+
+        $("#sumpz").removeAttr("disabled", "disabled");
+        $("#tankbase").prop("disabled", false);
+        $("#tankxtype").prop("disabled", false);
+        $("#tankytype").prop("disabled", false);
+        $("#tankztype").prop("disabled", false);
+        $("#tankside").prop("disabled", false);
+    }
+    else
+    {
+        $("#sumpx").attr("disabled", "disabled");
+
+        $("#sumpy").attr("disabled", "disabled");
+
+        $("#sumpz").attr("disabled", "disabled");
+        $("#sumpbase").prop("disabled", true);
+        $("#sumpxtype").prop("disabled", true);
+        $("#sumpytype").prop("disabled", true);
+        $("#sumpztype").prop("disabled", true);
+        $("#sumpside").prop("disabled", true);
+    }
+
+}
+function options()
+{
+    if (document.getElementById("tankCheck").checked && document.getElementById("SumpCheck").checked) {
+        start();
+        sumpstart();
+    }
+    if (document.getElementById("tankCheck").checked) {
+        start();
+    }
+    else if (document.getElementById("SumpCheck").checked) {
+        sumpstart();
+    }
+    else
+    {
+        alert("You should select something?");
+    }
+    var lid = document.getElementById("lidtype").value;
+    var cab = document.getElementById("cabinet").value;
+
 }

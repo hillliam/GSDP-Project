@@ -4,23 +4,57 @@ function sumpstart()
     var sumplength = eval(getslength());
     var sumpwidth = eval(getswidth());
     var sumpheight = eval(getshight());
-    var sumpbase = eval(document.getElementById("sumpbase").value);
-    var sumpside = eval(document.getElementById("sumpside").value);
-    
-    var sumpPricesPerSqM = (eval(sumpbasethicknesscost) / 1000000);
-    var sumpPricesPerSqmSide = (eval(sumpsidethicknesscost) / 1000000);
-    
+
+    var sumpside = 4;
+    var sumpbase = 12;
+
+    var sidesPos = 1;
+    var basepos = 0;
+    if (sumpheight > 17 && sumpheight <= 27) {
+        sidesPos = 2;
+    }
+    else if (sumpheight > 27 && sumpheight <= 30) {
+        sidesPos = 3;
+    }
+    else if (sumpheight > 30)
+    {
+        for (var i = 30; i < sumpheight; i += 6)
+        {
+            sidesPos += 1;
+            if (sidesPos == 7)
+            {
+                i = sumpheight;
+            }
+        }
+    }
+    if (eval(sglassarray[sidesPos].Thickness) >= 20) {
+        basepos += 1;
+    }
+    if (sumpheight > 24) {
+        sumpbase = 20;
+    }
+
+    sumpside = eval(sglassarray[sidesPos].Thickness);
+    document.getElementById("sside").value = sumpbase;
+    document.getElementById("sbase").value = sumpside;
+    while (eval(sglassarray[basepos].Thickness) != sumpbase && sglassarray.length < basepos)
+    {
+        basepos++;
+    }
+    var sumpPricesPerSqM = (eval(sglassarray[basepos].Price) / 1000000);
+    var sumpPricesPerSqmSide = (eval(sglassarray[sidesPos].Price) / 1000000);
+
     var sumpFrontWidth = Math.ceil((sumpheight * 2.54) * 10) - sumpbase;
     var sumpFrontLength = Math.ceil((sumplength * 2.54) * 10);
     var sumpSideLength = Math.ceil((sumpwidth * 2.54) * 10) - ((sumpside * 2) + 2);
     var sumpBaseWidth = Math.ceil((sumpwidth * 2.54) * 10);
-    
+
     var sumpSidesCost = ((sumpSideLength * sumpFrontWidth) * sumpPricesPerSqmSide);
     var sumpBaseCost = ((sumpFrontLength * sumpBaseWidth) * sumpPricesPerSqM);
     var sumpFrontCost = ((sumpFrontWidth * sumpFrontLength) * sumpPricesPerSqmSide);
 
     var sumpSilliconBracing = (sumpSidesCost + sumpFrontCost + sumpBaseCost) / 3;
-    
+
     var sumpFrontWeight = ((((sumpFrontLength * sumpFrontWidth) / 10000) * (sumpside * 2.5)) / 100);
     var sumpSideWeight = ((((sumpSideLength * sumpFrontWidth) / 10000) * (sumpside * 2.5)) / 100);
     var sumpBaseWeight = ((((((sumplength * 2.54) * 10) * ((sumpwidth * 2.54) * 10)) / 10000) * (sumpbase * 2.5)) / 100);
@@ -44,7 +78,7 @@ function sumpstart()
     calculatesstat(afterDisplacement);
     var weight = (gallons * 4.55) + (((sumpWeight) + (sumpWeight * 0.1)) + 7);
     document.getElementById("stotalww").value = weight.toFixed(2);
-    document.getElementById("totalsc").value = "£ " + sumpRetailCost.toFixed(2);
+    document.getElementById("totalsc").value = sumpRetailCost.toFixed(2);
 }
 function start()
 {
@@ -52,9 +86,42 @@ function start()
     var length = eval(getlength());
     var width = eval(getwidth());
     var height = eval(gethight());
-    var base = eval(document.getElementById("tankbase").value);
-    var side = eval(document.getElementById("tankside").value);
+    var side = 4;
+    var base = 12;
 
+    var sidesPos = 1;
+    var basepos = 0;
+    if (height > 17 && height <= 27) {
+        sidesPos = 3;
+    }
+    else if (height > 27 && height <= 30) {
+        sidesPos = 4;
+    }
+    else if (height > 30)
+    {
+        for (var i = 30; i < height; i += 6)
+        {
+            sidesPos += 1;
+            if (sidesPos == 7)
+            {
+                i = height;
+            }
+        }
+    }
+    if (eval(glassarray[sidesPos].Thickness) >= 20) {
+        basepos += 1;
+    }
+    if (height > 24) {
+        base = 20;
+    }
+
+    side = eval(glassarray[sidesPos].Thickness);
+    document.getElementById("side").value = base;
+    document.getElementById("base").value = side;
+    while (eval(glassarray[basepos].Thickness) != base && glassarray.length < basepos)
+    {
+        basepos++;
+    }
 
     /*glass sizes base cost = if (tank base == 6){
      (glassSizesBaseLength * glassSizesBaseWidth) * ((GlasspricePersqm/1000)/1000)
@@ -62,8 +129,8 @@ function start()
      (glassSizesBaseLength * glassSizesBaseWidth) * ((glassPricesPerSqM/1000)/1000)
      (continue ad infintum based on tank base = glass size which defines the glass price perSqM) */
 
-    var glassPricesPerSqM = (eval(basethinknesscost) / 1000000);
-    var glassPricesPerSqmSide = (eval(sidethinknesscost) / 1000000);
+    var glassPricesPerSqM = (eval(glassarray[basepos].Price) / 1000000);
+    var glassPricesPerSqmSide = (eval(glassarray[sidesPos].Price) / 1000000);
 
 //if (base == 6 || base == 8) //FIXME: scot
     //{
@@ -153,7 +220,7 @@ function start()
     var glassSizeSiliconBracingCost = 4.50;
     var glassSizeEnergyCharge = 4.50;
     var GlassBracesSiliconEnergyCharge = glassSidesCost + glassFrontCost + glassBaseCost + glassSizeSiliconBracingCost + glassSizeEnergyCharge;
-    document.getElementById("totalc").value = "£" + retailCost.toFixed(2);
+    document.getElementById("totalc").value = retailCost.toFixed(2);
 }
 function calculatestat(afterDisplacement)
 {

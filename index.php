@@ -5,7 +5,7 @@ require "support/constants.php";
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Welcome | fit filtration</title>
+        <title>Welcome | Fit Filtration</title>
         <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
         <script src="conversion.js"></script>
         <script src="rest.js"></script>
@@ -33,14 +33,16 @@ require "support/constants.php";
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
         <script>
-                var markUpPercentage = <?php print Fit_Mark_up; ?>;
-                var tradeMarkUpPercentage = <?php print Trade_Mark_up; ?>;
-                var energyChargeRate = <?php print energyChargeRate; ?>;
+            var markUpPercentage = <?php print Fit_Mark_up; ?>;
+            var tradeMarkUpPercentage = <?php print Trade_Mark_up; ?>;
+            var energyChargeRate = <?php print energyChargeRate; ?>;
+            getallprice();
+            getsallprice();
         </script>
     </head>
     <body class="jumbotron">
         <nav>
-            <h1 class="jumbotron text-center">tank estimation software</h1>
+            <h1 class="jumbotron text-center">Tank Estimation Software</h1>
         </nav>
         <!-- 
             This inserts the template_header PHP page right here and 
@@ -54,6 +56,7 @@ require "support/constants.php";
                 </select>
             </p>
             <div id="tankm" class="container bg-warning">
+                <input type="checkbox" id = "tankCheck" checked onChange="disableTank();"> I would like a tank<br>
                 <p>Tank length:<input class="" type="number" id="tankx">
                     <select class="selectpicker" id="tankxtype">
                         <option value="cm">cm</option>
@@ -70,24 +73,11 @@ require "support/constants.php";
                         <option value="mm">mm</option>
                         <option value="inches" selected>inches</option>
                     </select></p>
-                <p>Base glass thickness: <select class="center-block selectpicker" id="tankbase" onChange="validatethicness();">
-                        <?php
-                        $arrays = query("select Thickness from GlassPrices");
-                        foreach ($arrays as $it):
-                            print "<option value=\"" . $it["Thickness"] . "\">" . $it["Thickness"] . "</option>";
-                        endforeach;
-                        ?>
-                    </select></p>
-                <p>Side glass thickness: <select class="center-block selectpicker" id="tankside" onChange="validatesthicness();"> 
-                    <?php
-                        $arrays = query("select Thickness from GlassPrices");
-                        foreach ($arrays as $it):
-                            print "<option value=\"" . $it["Thickness"] . "\">" . $it["Thickness"] . "</option>";
-                        endforeach;
-                        ?>
-                    </select></p>
+                <p>Base glass thickness: <input class="" type="number" readonly="" id="side"></p>
+                <p>Side glass thickness: <input class="" type="number" readonly="" id="base"></p>
             </div>
             <div id="sumpm" class="container bg-warning">
+                <input type="checkbox" id = "SumpCheck" checked onChange="disableSump();"> I would like a sump<br>
                 <p>Sump length:<input class="text-muted" type="number" id="sumpx"><select class="selectpicker" id="sumpxtype">
                         <option value="cm">cm</option>
                         <option value="mm">mm</option>
@@ -103,38 +93,17 @@ require "support/constants.php";
                         <option value="mm">mm</option>
                         <option value="inches" selected="">inches</option>
                     </select></p>
-                <p>Base glass thickness: <select class="center-block selectpicker" id="sumpbase" onChange="validatesumpthicness();">    
-                    <?php
-                        $arrays = query("select Thickness from GlassPrices");
-                        foreach ($arrays as $it):
-                            print "<option value=\"" . $it["Thickness"] . "\">" . $it["Thickness"] . "</option>";
-                        endforeach;
-                        ?>
-                    </select></p>
-                <p>Side glass thickness: <select class="center-block selectpicker" id="sumpside" onChange="validatesumpsthicness();">
-                        <?php
-                        $arrays = query("select Thickness from GlassPrices");
-                        foreach ($arrays as $it):
-                            print "<option value=\"" . $it["Thickness"] . "\">" . $it["Thickness"] . "</option>";
-                        endforeach;
-                        ?>
-                    </select></p>
+                <p>Base glass thickness: <input class="" type="number" readonly="" id="sside"></p>
+                <p>Side glass thickness: <input class="" type="number" readonly="" id="sbase"></p>
             </div>
-            <p><button class="btn hvr-grow btn-success center-block" value="calculate" id="calculate" onclick="start();sumpstart();"><i class="fa fa-calculator fa-2x"></i> Calculate!</button></p>
+            <p><button class="btn hvr-grow btn-success center-block" value="calculate" id="calculate" onclick="options();"><i class="fa fa-calculator fa-2x"></i> Calculate!</button></p>
         </div>
         <div id="options" class="container bg-warning">
+            <p>low iron front: <input class="" type="checkbox" readonly="" id="lowf"></p>
+            <p>low iron side: <input class="" type="checkbox" readonly="" id="lows"></p>
             <p>Tank lid: <select class="center-block selectpicker" id="lidtype">
-                <option value="none">None</option>       
-                <?php
-                    $arrays = query("select Type from FrameOptions");
-                    foreach ($arrays as $it):
-                        print "<option value=\"" . $it["Type"] . "\">" . $it["Type"] . "</option>";
-                    endforeach;
-                    ?>
-                </select></p>
-            <p>Sump lid: <select class="center-block  selectpicker" id="slidtype">
-                <option value="none">None</option>       
-                <?php
+                    <option value="none">None</option>       
+                    <?php
                     $arrays = query("select Type from FrameOptions");
                     foreach ($arrays as $it):
                         print "<option value=\"" . $it["Type"] . "\">" . $it["Type"] . "</option>";
@@ -142,14 +111,19 @@ require "support/constants.php";
                     ?>
                 </select></p>
             <p>Cabinet under tank: <select class="center-block selectpicker" id="cabinet">
-                <option value="none">None</option>       
-                <?php
+                    <option value="none">None</option>       
+                    <?php
                     $arrays = query("select Type from FrameOptions");
                     foreach ($arrays as $it):
                         print "<option value=\"" . $it["Type"] . "\">" . $it["Type"] . "</option>";
                     endforeach;
                     ?>
                 </select></p>
+            <p>frame type: <select class="center-block selectpicker" id="mattype"> 
+                    <option value="wood" selected="">wood</option>
+                    <option value="metal">metal</option>
+                </select>
+            </p>
         </div>
         <div id="results" class="container hidden bg-warning">
             <h2>tank mesurments</h2>
@@ -169,8 +143,8 @@ require "support/constants.php";
             <p>Total weight including water (Kg):<input class="" type="number" id="totalww"></p>
             <p>Total cost of tank:<input class="center-block" type="number" id="totalc"></p>
         </div>
-                <div id="sresults" class="container hidden bg-warning">
-                    <h2>sump mesurments</h2>
+        <div id="sresults" class="container hidden bg-warning">
+            <h2>sump mesurments</h2>
             <p>After displacment (Kg):<input class="" type="number" id="sdisplacment"></p>
             <p>Amount of Rock (Kg):<input class="" type="number" id="sLiveRock"></p>
             <p>Fish Stocking (Inches): <input class="" type="number" id="sfishStocking"><select value="inches" class="selectpicker" id="fishbase" onchange="updatestocking();">
@@ -186,6 +160,13 @@ require "support/constants.php";
             <p>Gallons of water it can hold:<input class="" type="number" id="sgallonsw"></p>
             <p>Total weight including water (Kg):<input class="" type="number" id="stotalww"></p>
             <p>Total cost of sump:<input class="center-block" type="number" id="totalsc"></p>
+        </div>
+        <div id="oresults" class="container hidden bg-warning">
+            <h2>option prices</h2>
+            <p>lid price £:<input class="" type="number" id="totallc"></p>
+            <p>cabinet under the tank price £:<input class="center-block" type="number" id="totalcab"></p>
+            <p>wood frame price £:<input class="center-block" type="number" id="totalframe"></p>
+            <p>metal frame price £:<input class="center-block" type="number" id="totalmframe"></p>
         </div>
         <div id="delivary" class="container bg-warning">
             <p>Select the post code nearest to you:<select class="center-block selectpicker" id="delivary">
@@ -204,6 +185,7 @@ require "support/constants.php";
             <p>Town:<input class="center-block" type="text" id="customert"></p>
             <p>Region:<input class="center-block" type="text" id="customerr"></p>
             <p>Telephone number:<input class="center-block" type="tel" id="housepon"></p>
+            <p><button class="btn hvr-grow btn-info center-block" value="order" onclick="placeorder();"><i class="fa fa-money"></i>place order</button></p>
         </div>
         <hr/>
     </body>
