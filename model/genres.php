@@ -45,21 +45,23 @@ function _queryArray($query) {
     
     // Copy the genres over to the array.
     $genres = array();
-    while ($row = $res->fetch_assoc()) {
+    while ($row = getrows($res)) {
         array_push($genres, $row);
     }
     return $genres;
 }
 
 function _queryOne($query) {
-    $res = connet()->query($query);
-    return $res->fetch_assoc();
+    $connection = connet();
+    $res = query($query);
+    return getrows($res);
 }
 
 function getallgenres()
 {
 	$sql = "SELECT * FROM gernres";
-	$result = connet()->query($sql);
+        $connection = connet();
+	$result = query($sql);
 	return $result;
 }
 
