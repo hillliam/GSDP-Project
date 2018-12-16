@@ -41,14 +41,13 @@ function close($connection)
 
 function query($statment)
 {
-    //$connection = connet();
-    $data = query($statment);
+    $connection = connet();
+    $data = performquery($statment);
     $result = array();
     while ($row = getrows($data)) {
 		array_push($result, $row);
     }
-    //close($connection);
+    close($connection);
     return $result;
 }
-connet();
 ?>
