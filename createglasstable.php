@@ -3,7 +3,7 @@ require "support/constants.php";
 
 function createtable()
 {
-    $connection = conect();
+    $connection = connet();
     query("create table glass"
             . "("
             . "thinkness number not null,"
@@ -15,7 +15,7 @@ function createtable()
 
 function insetintoglass()
 {
-    $connection = conect();
+    $connection = connet();
     $start = "INSERT INTO glass VALUES (";
     $statment = "25, 210.00, 7.75";
     query($start. $statment .");");

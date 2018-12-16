@@ -3,7 +3,7 @@ require "support/constants.php";
 
 function createtable()
 {
-    $connection = conect();
+    $connection = connet();
     query("create table cab"
             . "("
             . "length number not null,"
@@ -18,7 +18,7 @@ function createtable()
 
 function insetintocab1()
 {
-    $connection = conect();
+    $connection = connet();
     $start = "INSERT INTO cab VALUES (";
     $statment = "24, 18, 1, 715, 595, 200";
     query($start. $statment .");");
@@ -38,7 +38,7 @@ function insetintocab1()
 }
 function insetintocab2()
 {
-    $connection = conect();
+    $connection = connet();
     $start = "INSERT INTO cab VALUES (";
     $statment = "24, 20, 1, 715, 595, 208";
     query($start. $statment .");");
@@ -58,7 +58,7 @@ function insetintocab2()
 }
 function insetintocab3()
 {
-    $connection = conect();
+    $connection = connet();
     $start = "INSERT INTO cab VALUES (";
     $statment = "24, 24, 1, 715, 595, 224";
     query($start. $statment .");");
