@@ -77,7 +77,7 @@ function insetintocab3()
     close($connection);
 }
 
-createtable();
+//createtable();
 insetintocab1();
 insetintocab2();
 insetintocab3();

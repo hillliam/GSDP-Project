@@ -36,5 +36,5 @@ function insetintoglass()
     close($connection);
 }
 
-createtable();
+//createtable();
 insetintoglass();
